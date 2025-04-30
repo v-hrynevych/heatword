@@ -5,16 +5,17 @@ import "./home.css";
 import { useState } from "react";
 import { useRandomWord } from "@/app/game/hooks/useRandomWord";
 import InfoCard from "@/app/shared/component/InfoCard";
+import ResultList from "@/app/shared/component/ResultList";
 
 export const HomePage = () => {
-    const { mutate, data, isLoading, error } = useRandomWord();
+    const { mutate, data, isPending, error } = useRandomWord();
     const [gameStarted, setGameStarted] = useState(false);
     const handleStartGame = () => {
         setGameStarted(true);
         mutate("Українська");
         console.log("Game started!");
     };
-      return (
+    return (
         <div>
             <Container maxWidth="lg" sx={{ paddingTop: 5 }}>
                 <Box
@@ -36,7 +37,7 @@ export const HomePage = () => {
                     </Typography>
 
                     {gameStarted && data ? (
-                        <WordGuess word={data.word} />
+                        <WordGuess setGameStarted={setGameStarted} word={data.word} />
                     ) : (
                         <>
                             <InfoCard />
@@ -54,7 +55,7 @@ export const HomePage = () => {
                                     },
                                 }}
                             >
-                                Почати
+                                {isPending ? "Старт..." : "Почати"}
                             </Button>
                         </>
                     )}

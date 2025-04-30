@@ -1,20 +1,32 @@
 "use client";
 import Attempts from "@/app/shared/component/Attempts";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, Button } from "@mui/material";
 import { useState } from "react";
 import ResultsTable from "./resultsTable";
 import { useWordSimilarity } from "../hooks/useWordSimilarity";
 import { toast } from "sonner";
+import ResultList from "@/app/shared/component/ResultList";
 
-const WordGuess = ({ word }: { word: string }) => {
-    const { mutate, data: score, isPending } = useWordSimilarity();
+type Result = {
+    word: string;
+    score: number;
+};
+
+const WordGuess = ({
+    word,
+    setGameStarted,
+}: {
+    word: string;
+    setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+    const { mutate, data, isPending } = useWordSimilarity();
 
     const [timer, setTimer] = useState<NodeJS.Timeout | null>();
     const [attempts, setAttempts] = useState<number>(0);
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState<Result[]>([]);
     const [textFieldInput, setTextFieldInput] = useState("");
-
-    const handleInput = (e) => {
+    const [isWin, setIsWin] = useState(false);
+    const handleInput = (e: string) => {
         setTextFieldInput(e);
         if (timer) {
             clearTimeout(timer);
@@ -29,7 +41,7 @@ const WordGuess = ({ word }: { word: string }) => {
         setTimer(newTimer);
     };
 
-    const handleEnter = (el) => {
+    const handleEnter = (el: React.KeyboardEvent<HTMLInputElement>) => {
         if (el.key === "Enter") {
             const match = results.find(
                 (item) =>
@@ -39,34 +51,74 @@ const WordGuess = ({ word }: { word: string }) => {
                 return toast.error("Це слово вже використано!");
             }
             mutate(
-                { word1: word, word2: textFieldInput },
+                {
+                    word1: word.toLocaleLowerCase(),
+                    word2: textFieldInput.toLocaleLowerCase(),
+                },
                 {
                     onSuccess: (data) => {
                         setResults([
                             ...results,
                             { word: textFieldInput, score: data },
                         ]);
+                        console.log(results);
+
+                        if (data === 1) {
+                            setIsWin(true);
+                        }
                     },
                 }
             );
         }
     };
-  
+
     return (
-        <Box suppressHydrationWarning width={"50%"}>
-            <Attempts attempts={attempts} />
-            <TextField
-                disabled={isPending}
-                label="Введіть слово"
-                value={textFieldInput}
-                onKeyDown={handleEnter}
-                onChange={(e) => {
-                    handleInput(e.target.value);
-                }}
-                slotProps={{ htmlInput: { maxLength: 25 } }}
-                fullWidth
-            />
-            <ResultsTable results={results} />
+        <Box width={"50%"}>
+            {isWin ? (
+                <Box>
+                    <ResultList
+                        results={results}
+                        word={word}
+                        attempts={attempts}
+                    />
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <Button
+                            variant="contained"
+                            color="inherit" // Чорний фон кнопки
+                            onClick={() => {
+                                setGameStarted(false);
+                            }}
+                            sx={{
+                                padding: "12px 24px",
+                                fontSize: "1.2rem",
+                                color: "white", // Білий текст
+                                backgroundColor: "black", // Чорний фон
+                                "&:hover": {
+                                    backgroundColor: "#333", // Трохи світліший чорний при ховері
+                                },
+                            }}
+                        >
+                            {"Нова гра!"}
+                        </Button>
+                    </Box>
+                </Box>
+            ) : (
+                <>
+                    <Attempts attempts={attempts} />
+                    <TextField
+                        disabled={isPending}
+                        label="Введіть слово"
+                        value={textFieldInput}
+                        onKeyDown={handleEnter}
+                        onChange={(e) => {
+                            handleInput(e.target.value);
+                        }}
+                        slotProps={{ htmlInput: { maxLength: 25 } }}
+                        fullWidth
+                    />
+                    <ResultsTable results={results} />
+                </>
+            )}
         </Box>
     );
 };

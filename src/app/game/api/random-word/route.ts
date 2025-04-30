@@ -8,7 +8,7 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
     const { language } = await req.json();
-    console.log(language);
+   
     try {
         if (!language) {
             return NextResponse.json(
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
                     content: language,
                 },
             ],
-            temperature: 1,
+            temperature: 1.5,
             max_tokens: 10,
         });
 

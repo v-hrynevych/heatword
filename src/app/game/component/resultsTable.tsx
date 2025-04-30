@@ -23,89 +23,95 @@ export default function ResultsTable({
     results: { word: string; score: number }[];
 }) {
     return (
-        <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Слово</TableCell>
-                        <TableCell>Близькість</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {results &&
-                        results
-                            .sort((a, b) => a.score - b.score)
-                            .map((item) => {
-                                return (
-                                    <TableRow key={item.word}>
-                                        <TableCell
-                                            sx={{
-                                                width: "40%",
-                                                whiteSpace: "nowrap",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                            }}
-                                        >
-                                            {item.word}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Box
+        <Box>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Слово</TableCell>
+                            <TableCell>Близькість</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {results &&
+                            results
+                                .sort((a, b) => a.score - b.score)
+                                .map((item) => {
+                                    return (
+                                        <TableRow key={item.word}>
+                                            <TableCell
                                                 sx={{
-                                                    position: "relative",
-                                                    width: "100%",
-                                                    height: 30,
+                                                    width: "40%",
+                                                    whiteSpace: "nowrap",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
                                                 }}
                                             >
-                                                <LinearProgress
-                                                    variant="determinate"
-                                                    value={
-                                                        ((1000 - item?.score) /
-                                                            999) *
-                                                        100
-                                                    }
-                                                    sx={{
-                                                        height: 30,
-                                                        borderRadius: 2,
-                                                        backgroundColor:
-                                                            "rgba(0, 0, 0, 0.06)", // прозорий фон
-                                                        "& .MuiLinearProgress-bar":
-                                                            {
-                                                                backgroundColor:
-                                                                    getColor(
-                                                                        item?.score
-                                                                    ),
-                                                                opacity: 0.8, // легка прозорість
-                                                            },
-                                                    }}
-                                                />
+                                                {item.word}
+                                            </TableCell>
+                                            <TableCell>
                                                 <Box
                                                     sx={{
-                                                        position: "absolute",
-                                                        top: 0,
-                                                        left: 0,
-                                                        height: "100%",
+                                                        position: "relative",
                                                         width: "100%",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent:
-                                                            "center",
-                                                        color: "#333",
-                                                        fontWeight: 500,
+                                                        height: 30,
                                                     }}
                                                 >
-                                                    {`${Math.round(
-                                                        ((1000 - item?.score) /
-                                                            999) *
+                                                    <LinearProgress
+                                                        variant="determinate"
+                                                        value={
+                                                            ((1000 -
+                                                                item?.score) /
+                                                                999) *
                                                             100
-                                                    )}% ( ${item?.score})`}
+                                                        }
+                                                        sx={{
+                                                            height: 30,
+                                                            borderRadius: 2,
+                                                            backgroundColor:
+                                                                "rgba(0, 0, 0, 0.06)", // прозорий фон
+                                                            "& .MuiLinearProgress-bar":
+                                                                {
+                                                                    backgroundColor:
+                                                                        getColor(
+                                                                            item?.score
+                                                                        ),
+                                                                    opacity: 0.8, // легка прозорість
+                                                                },
+                                                        }}
+                                                    />
+                                                    <Box
+                                                        sx={{
+                                                            position:
+                                                                "absolute",
+                                                            top: 0,
+                                                            left: 0,
+                                                            height: "100%",
+                                                            width: "100%",
+                                                            display: "flex",
+                                                            alignItems:
+                                                                "center",
+                                                            justifyContent:
+                                                                "center",
+                                                            color: "#333",
+                                                            fontWeight: 500,
+                                                        }}
+                                                    >
+                                                        {`${Math.round(
+                                                            ((1000 -
+                                                                item?.score) /
+                                                                999) *
+                                                                100
+                                                        )}% ( ${item?.score})`}
+                                                    </Box>
                                                 </Box>
-                                            </Box>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 }
