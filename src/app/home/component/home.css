@@ -1,0 +1,33 @@
+.heatword-text {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-size: 5rem;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    color: transparent;
+    background: linear-gradient(
+        to right,
+        #ff2400,
+        /* Дуже насичений гарячий червоний */ #ff4e00,
+        /* Яскравий помаранчевий */ #ff9a00,
+        /* Сяючий жовто-оранжевий */ #00c3ff,
+        /* Небесно-блакитний */ #0047ff /* Глибокий насичений синій */
+    );
+    background-size: 300% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: gradientFlow 8s ease-in-out infinite;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%; /* Починаємо з червоного */
+    }
+    50% {
+        background-position: 100% 50%; /* Переходимо до синього */
+    }
+    100% {
+        background-position: 0% 50%; /* Повертаємося назад */
+    }
+}
