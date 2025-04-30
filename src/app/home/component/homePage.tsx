@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRandomWord } from "@/app/game/hooks/useRandomWord";
 import InfoCard from "@/app/shared/component/InfoCard";
 import ResultList from "@/app/shared/component/ResultList";
+import BetaBadge from "@/app/shared/component/BetaBadge";
 
 export const HomePage = () => {
     const { mutate, data, isPending, error } = useRandomWord();
@@ -37,7 +38,10 @@ export const HomePage = () => {
                     </Typography>
 
                     {gameStarted && data ? (
-                        <WordGuess setGameStarted={setGameStarted} word={data.word} />
+                        <WordGuess
+                            setGameStarted={setGameStarted}
+                            word={data.word}
+                        />
                     ) : (
                         <>
                             <InfoCard />
@@ -61,6 +65,7 @@ export const HomePage = () => {
                     )}
                 </Box>
             </Container>
+            <BetaBadge />
         </div>
     );
 };
