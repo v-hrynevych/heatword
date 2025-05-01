@@ -37,17 +37,16 @@ const ResultList: React.FC<ResultListProps> = ({ results, word, attempts }) => {
             <Typography variant="h6" gutterBottom>
                 Results
             </Typography>
-            <TableCell>
+            <Typography gutterBottom>
                 Attempts: <b>{attempts}</b>
-            </TableCell>
-            <TableCell>Word: {word}</TableCell>
+            </Typography>
+            <Typography gutterBottom>Word: {word}</Typography>
             <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Word</TableCell>
                             <TableCell>Similarity</TableCell>
-                            
                         </TableRow>
                     </TableHead>
                     <TableBody>

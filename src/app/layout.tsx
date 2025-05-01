@@ -8,6 +8,9 @@ export const metadata: Metadata = {
 Type any word and get feedback on how close it is to the hidden answer:
 the more matches, the "hotter" you are.
 Sharpen your word skills, challenge your brain, and beat your best score in this addictive game.`,
+    verification: {
+        google: "fBZWYXvg_WI9qzNW_W57ysZEx6fgxtBztasT2i-l5Zw",
+    },
 };
 
 export default async function RootLayout({

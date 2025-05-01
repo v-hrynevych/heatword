@@ -9,7 +9,6 @@ const openai = new OpenAI({
 export async function POST(req: NextRequest) {
     try {
         const { word1, word2 } = await req.json();
-        console.log(word1, word2);
 
         if (!word1 || !word2) {
             return NextResponse.json(
@@ -23,8 +22,7 @@ export async function POST(req: NextRequest) {
             messages: [
                 {
                     role: "system",
-                    content:
-                        "Rate similarity of two words from 1 (same) to 1000 (unrelated), only number.",
+                    content: `Compare the following two Ukrainian words and determine how similar they are in meaning, context, and usage. Consider both **semantic** and **associative** similarity.Return a single number between 1 and 1000, return only number.`,
                 },
                 {
                     role: "user",
@@ -32,11 +30,13 @@ export async function POST(req: NextRequest) {
                 },
             ],
             temperature: 0,
-            max_tokens: 5,
+            max_tokens: 10,
         });
 
         const content = completion.choices[0].message?.content?.trim() || "";
         const score = parseInt(content, 10);
+        console.log(content);
+
         if (isNaN(score)) {
             return NextResponse.json(
                 { error: "Invalid score format returned by model" },

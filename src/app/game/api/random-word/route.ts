@@ -8,7 +8,7 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
     const { language } = await req.json();
-   
+
     try {
         if (!language) {
             return NextResponse.json(
@@ -21,12 +21,8 @@ export async function POST(req: NextRequest) {
             model: "gpt-4.1-nano", // або 'gpt-3.5-turbo'
             messages: [
                 {
-                    role: "system",
-                    content: `Reply with one random simple word in the given language.`,
-                },
-                {
                     role: "user",
-                    content: language,
+                    content: "Generate a random Ukrainian word",
                 },
             ],
             temperature: 1.5,

@@ -40,6 +40,8 @@ const WordGuess = ({
 
         setTimer(newTimer);
     };
+    
+console.log(word);
 
     const handleEnter = (el: React.KeyboardEvent<HTMLInputElement>) => {
         if (el.key === "Enter") {
@@ -61,7 +63,6 @@ const WordGuess = ({
                             ...results,
                             { word: textFieldInput, score: data },
                         ]);
-                        console.log(results);
 
                         if (data === 1) {
                             setIsWin(true);
@@ -103,7 +104,7 @@ const WordGuess = ({
                     </Box>
                 </Box>
             ) : (
-                <>
+                <Box>
                     <Attempts attempts={attempts} />
                     <TextField
                         disabled={isPending}
@@ -117,7 +118,7 @@ const WordGuess = ({
                         fullWidth
                     />
                     <ResultsTable results={results} />
-                </>
+                </Box>
             )}
         </Box>
     );
